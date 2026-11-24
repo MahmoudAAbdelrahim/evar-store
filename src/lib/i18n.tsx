@@ -142,6 +142,18 @@ const dict = {
   },
   backHome: { ar: "الرجوع للرئيسية", en: "Back to home" },
 
+  // order tracking
+  trackOrder: { ar: "تتبع طلبك", en: "Track your order" },
+  trackOrderTitle: { ar: "تتبع طلبك", en: "Track your order" },
+  trackOrderSub: { ar: "ادخل رقم الطلب المرجعي اللي وصلك بعد تأكيد الطلب", en: "Enter the order reference you got after placing your order" },
+  enterRef: { ar: "EVAR-XXXXXX", en: "EVAR-XXXXXX" },
+  trackBtn: { ar: "تتبع", en: "Track" },
+  orderNotFound: { ar: "الرقم ده مش موجود. تأكد من الرقم المرجعي وحاول تاني.", en: "Reference not found. Check it and try again." },
+  statusPending: { ar: "في انتظار التأكيد", en: "Pending confirmation" },
+  statusConfirmed: { ar: "تم التأكيد", en: "Confirmed" },
+  statusShipped: { ar: "تم الشحن", en: "Shipped" },
+  statusDelivered: { ar: "تم التسليم", en: "Delivered" },
+
   // size guide
   sizeGuideTitle: { ar: "دليل المقاسات", en: "Size Guide" },
   sizeGuideSub: { ar: "قِس جسمك وقارن بالجدول عشان تختار مقاسك المظبوط", en: "Measure yourself and compare with the chart to find your fit" },

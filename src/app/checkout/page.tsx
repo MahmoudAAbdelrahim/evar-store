@@ -1,12 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createOrder } from "@/lib/api";
 import { useCart } from "@/lib/cart";
 import { formatPrice } from "@/lib/format";
 import { useLocale } from "@/lib/i18n";
 import { governorates, shippingRates } from "@/lib/mock-data";
+import { itemPayload, track } from "@/lib/track";
 
 const inputCls =
   "w-full rounded-xl border border-line bg-surface px-4 py-2.5 text-sm outline-none focus:border-accent";
@@ -33,6 +34,19 @@ export default function CheckoutPage() {
 
   const shippingCost = shippingRates[method].cost;
   const total = subtotal + shippingCost;
+
+  const tracked = useRef(false);
+  useEffect(() => {
+    if (!tracked.current && items.length > 0) {
+      tracked.current = true;
+      track("begin_checkout", {
+        currency: "EGP",
+        value: subtotal,
+        items: items.map((i) => itemPayload(i)),
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));

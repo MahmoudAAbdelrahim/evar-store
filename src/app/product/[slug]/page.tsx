@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ProductCard from "@/components/ProductCard";
 import { useCart } from "@/lib/cart";
 import { formatPrice, discountPercent } from "@/lib/format";
 import { useLocale } from "@/lib/i18n";
 import { governorates, products } from "@/lib/mock-data";
+import { itemPayload, track } from "@/lib/track";
 
 export default function ProductPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -39,6 +40,15 @@ export default function ProductPage() {
   }
 
   const off = discountPercent(product.price, product.compareAtPrice);
+
+  useEffect(() => {
+    track("view_item", {
+      currency: "EGP",
+      value: product.price,
+      items: [itemPayload({ productId: product.id, name: product.name, price: product.price })],
+    });
+  }, [product]);
+
   const stock =
     color && size
       ? (product.variants.find((v) => v.color === color && v.size === size)?.stock ?? 0)
@@ -67,6 +77,11 @@ export default function ProductPage() {
     }
     if (!stock) return;
     add(toCartItem());
+    track("add_to_cart", {
+      currency: "EGP",
+      value: product.price * qty,
+      items: [itemPayload({ ...toCartItem() })],
+    });
     setFlash(t("addedToCart"));
     setTimeout(() => setFlash(""), 1800);
   };

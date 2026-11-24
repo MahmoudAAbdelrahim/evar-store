@@ -69,6 +69,7 @@ export default function Footer() {
             <li><Link className="hover:text-accent" href="/size-guide">{t("navSizeGuide")}</Link></li>
             <li><Link className="hover:text-accent" href="/#branches">{t("navBranches")}</Link></li>
             <li><Link className="hover:text-accent" href="/cart">{t("cart")}</Link></li>
+            <li><Link className="hover:text-accent" href="/track-order">{t("trackOrder")}</Link></li>
           </ul>
         </div>
 

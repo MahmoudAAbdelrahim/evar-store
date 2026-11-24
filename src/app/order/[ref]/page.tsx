@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { formatPrice } from "@/lib/format";
 import { useLocale } from "@/lib/i18n";
+import { itemPayload, track } from "@/lib/track";
 import type { Order } from "@/lib/types";
 
 export default function OrderPage() {
@@ -17,7 +18,17 @@ export default function OrderPage() {
       const saved = window.localStorage.getItem("evar-orders");
       if (saved) {
         const orders = JSON.parse(saved);
-        if (orders[ref]) setOrder(orders[ref]);
+        if (orders[ref]) {
+          setOrder(orders[ref]);
+          const o: Order = orders[ref];
+          track("purchase", {
+            event_id: o.ref,
+            currency: "EGP",
+            value: o.total,
+            shipping: o.shippingCost,
+            items: o.items.map((i) => itemPayload(i)),
+          });
+        }
       }
     } catch {
       // ignore
