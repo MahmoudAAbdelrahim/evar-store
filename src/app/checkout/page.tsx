@@ -125,6 +125,12 @@ export default function CheckoutPage() {
       <form onSubmit={placeOrder} className="mt-8 grid gap-8 lg:grid-cols-[1fr_360px]">
         <div className="space-y-8">
           {/* contact */}
+          <section className="rounded-2xl border border-amber-400 bg-amber-50 p-4 text-xs leading-6 text-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
+            نسخة تجريبية: لا تكتب أي بيانات حقيقية (اسم / تليفون / عنوان). الطلب ده للعرض بس ومش بيتبعت لأي حد.
+            <br />
+            Demo only: do not enter real personal details. This order goes nowhere.
+          </section>
+
           <section className="rounded-2xl border border-line bg-surface p-6">
             <h2 className="mb-4 font-bold">{t("contactInfo")}</h2>
             <div className="grid gap-4 sm:grid-cols-2">

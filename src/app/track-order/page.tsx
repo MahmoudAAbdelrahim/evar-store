@@ -35,6 +35,10 @@ export default function TrackOrderPage() {
       <h1 className="font-display text-3xl font-bold">{t("trackOrderTitle")}</h1>
       <p className="mt-2 text-sm text-ink-soft">{t("trackOrderSub")}</p>
 
+      <div className="mt-4 rounded-2xl border border-amber-400 bg-amber-50 p-4 text-xs leading-6 text-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
+        نسخة تجريبية: التتبع بيعرض بس الطلبات اللي اتعملت من نفس المتصفح، وكلها بيانات عرض وهمية. · Demo: tracking only shows orders placed in this browser; all data is fictitious.
+      </div>
+
       <form onSubmit={lookup} className="mt-6 flex gap-2">
         <input
           value={ref}

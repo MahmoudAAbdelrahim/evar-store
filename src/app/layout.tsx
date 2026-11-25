@@ -26,6 +26,8 @@ export const metadata: Metadata = {
     "EVAR", "إيفار", "أزياء", "ملابس", "fashion", "Egypt",
     "تيشيرتات", "هوديز", "جاكيتات", "hoodies", "t-shirts",
   ],
+  // Demo preview deployment: keep search engines out. Remove for production.
+  robots: { index: false, follow: false },
 };
 
 export const viewport: Viewport = {
