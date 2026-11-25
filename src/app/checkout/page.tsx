@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { loadSettings } from "@/lib/admin";
 import { createOrder } from "@/lib/api";
 import { useCart } from "@/lib/cart";
 import { formatPrice } from "@/lib/format";
@@ -31,8 +32,17 @@ export default function CheckoutPage() {
   const [method, setMethod] = useState<"door" | "pickup">("door");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [placing, setPlacing] = useState(false);
+  const [rates, setRates] = useState(shippingRates);
 
-  const shippingCost = shippingRates[method].cost;
+  useEffect(() => {
+    const s = loadSettings();
+    setRates({
+      door: { cost: s.doorCost ?? shippingRates.door.cost },
+      pickup: { cost: s.pickupCost ?? shippingRates.pickup.cost },
+    });
+  }, []);
+
+  const shippingCost = rates[method].cost;
   const total = subtotal + shippingCost;
 
   const tracked = useRef(false);
@@ -170,8 +180,8 @@ export default function CheckoutPage() {
             <div className="grid gap-3 sm:grid-cols-2">
               {(
                 [
-                  { id: "door", label: t("doorDelivery"), time: t("doorTime"), cost: shippingRates.door.cost },
-                  { id: "pickup", label: t("pickupPoint"), time: t("pickupTime"), cost: shippingRates.pickup.cost },
+                  { id: "door", label: t("doorDelivery"), time: t("doorTime"), cost: rates.door.cost },
+                  { id: "pickup", label: t("pickupPoint"), time: t("pickupTime"), cost: rates.pickup.cost },
                 ] as const
               ).map((m) => (
                 <button

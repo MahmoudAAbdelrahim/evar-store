@@ -2,10 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Cairo, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/Providers";
-import AnnouncementBar from "@/components/AnnouncementBar";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import WhatsAppFloat from "@/components/WhatsAppFloat";
+import StorefrontChrome from "@/components/StorefrontChrome";
 import Trackers from "@/components/Trackers";
 
 const cairo = Cairo({
@@ -45,11 +42,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ar" dir="rtl" className={`${cairo.variable} ${playfair.variable}`} suppressHydrationWarning>
       <body className="flex min-h-screen flex-col">
         <Providers>
-          <AnnouncementBar />
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <WhatsAppFloat />
+          <StorefrontChrome>{children}</StorefrontChrome>
           <Trackers />
         </Providers>
       </body>

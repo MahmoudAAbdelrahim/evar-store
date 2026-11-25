@@ -1,10 +1,26 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { loadContent, type ContentOverrides } from "@/lib/admin";
 import { useLocale } from "@/lib/i18n";
 
 export default function Hero() {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
+  const [content, setContent] = useState<ContentOverrides>({});
+
+  useEffect(() => {
+    const apply = () => setContent(loadContent());
+    apply();
+    window.addEventListener("storage", apply);
+    window.addEventListener("evar-admin", apply);
+    return () => {
+      window.removeEventListener("storage", apply);
+      window.removeEventListener("evar-admin", apply);
+    };
+  }, []);
+
+  const ov = (v?: { ar: string; en: string }) => (v && v[locale] ? v[locale] : undefined);
   return (
     <section className="relative overflow-hidden">
       {/* backdrop */}
@@ -15,15 +31,15 @@ export default function Hero() {
       <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-4 py-14 sm:py-20 lg:grid-cols-2">
         <div>
           <span className="rise inline-block rounded-full border border-accent/40 bg-accent/10 px-4 py-1.5 text-xs font-semibold text-accent-strong">
-            {t("heroKicker")}
+            {ov(content.heroKicker) ?? t("heroKicker")}
           </span>
           <h1 className="rise rise-1 mt-5 font-display text-4xl font-bold leading-[1.15] sm:text-5xl lg:text-6xl">
-            {t("heroTitle1")}
+            {ov(content.heroTitle1) ?? t("heroTitle1")}
             <br />
-            <span className="text-accent-strong">{t("heroTitle2")}</span>
+            <span className="text-accent-strong">{ov(content.heroTitle2) ?? t("heroTitle2")}</span>
           </h1>
           <p className="rise rise-2 mt-5 max-w-md text-base leading-8 text-ink-soft">
-            {t("heroSub")}
+            {ov(content.heroSub) ?? t("heroSub")}
           </p>
           <div className="rise rise-3 mt-8 flex flex-wrap items-center gap-3">
             <Link

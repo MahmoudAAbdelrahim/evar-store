@@ -7,7 +7,8 @@ import ProductCard from "@/components/ProductCard";
 import { useCart } from "@/lib/cart";
 import { formatPrice, discountPercent } from "@/lib/format";
 import { useLocale } from "@/lib/i18n";
-import { governorates, products } from "@/lib/mock-data";
+import { useCatalog } from "@/lib/admin";
+import { governorates } from "@/lib/mock-data";
 import { itemPayload, track } from "@/lib/track";
 
 export default function ProductPage() {
@@ -16,6 +17,7 @@ export default function ProductPage() {
   const { add } = useCart();
   const router = useRouter();
 
+  const products = useCatalog();
   const product = products.find((p) => p.slug === slug);
   const [imgIdx, setImgIdx] = useState(0);
   const [color, setColor] = useState<string | null>(null);
