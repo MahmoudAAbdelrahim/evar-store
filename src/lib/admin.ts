@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { products as baseProducts } from "./mock-data";
-import type { Order, Product } from "./types";
+import { categories as baseCategories, collections as baseCollections, products as baseProducts } from "./mock-data";
+import type { Localized, Order, Product } from "./types";
 
 /**
  * Demo admin persistence.
@@ -151,4 +151,52 @@ export function saveOrderStatus(ref: string, status: string) {
   } catch {
     // ignore
   }
+}
+
+// ---------- taxonomy (categories & collections) ----------
+
+export interface Taxon {
+  id: string;
+  name: Localized;
+  tagline?: Localized;
+  image: string;
+  hidden?: boolean;
+  custom?: boolean;
+}
+
+export interface Taxonomy {
+  categories: Taxon[];
+  collections: Taxon[];
+}
+
+const TAXONOMY_KEY = "evar-taxonomy";
+
+export function loadTaxonomy(): Taxonomy {
+  try {
+    const saved = window.localStorage.getItem(TAXONOMY_KEY);
+    if (saved) return JSON.parse(saved) as Taxonomy;
+  } catch {
+    // ignore
+  }
+  return { categories: [...baseCategories], collections: [...baseCollections] };
+}
+
+export function saveTaxonomy(t: Taxonomy) {
+  window.localStorage.setItem(TAXONOMY_KEY, JSON.stringify(t));
+}
+
+/** Categories & collections with admin edits applied (client components only). */
+export function useTaxonomy(): Taxonomy {
+  const [tax, setTax] = useState<Taxonomy>({ categories: baseCategories, collections: baseCollections });
+  useEffect(() => {
+    const apply = () => setTax(loadTaxonomy());
+    apply();
+    window.addEventListener("storage", apply);
+    window.addEventListener("evar-admin", apply);
+    return () => {
+      window.removeEventListener("storage", apply);
+      window.removeEventListener("evar-admin", apply);
+    };
+  }, []);
+  return tax;
 }

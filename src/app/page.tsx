@@ -7,17 +7,13 @@ import Testimonials from "@/components/Testimonials";
 import WhyEvar from "@/components/WhyEvar";
 import {
   getBranches,
-  getCategories,
-  getCollections,
   getDeals,
   getNewArrivals,
   getTestimonials,
 } from "@/lib/api";
 
 export default async function HomePage() {
-  const [cats, cols, news, deals, tst, brs] = await Promise.all([
-    getCategories(),
-    getCollections(),
+  const [news, deals, tst, brs] = await Promise.all([
     getNewArrivals(),
     getDeals(),
     getTestimonials(),
@@ -27,9 +23,9 @@ export default async function HomePage() {
   return (
     <>
       <Hero />
-      <CategoryRail categories={cats} />
+      <CategoryRail />
       <ProductRail titleKey="newArrivals" products={news} href="/shop?sort=new" />
-      <CollectionsSection collections={cols} />
+      <CollectionsSection />
       <ProductRail titleKey="dealsTitle" products={deals} href="/shop?sort=price-low" />
       <WhyEvar />
       <Testimonials items={tst} />

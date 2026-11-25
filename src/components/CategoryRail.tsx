@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { useTaxonomy } from "@/lib/admin";
 import { useLocale } from "@/lib/i18n";
-import type { Category } from "@/lib/types";
 
-export default function CategoryRail({ categories }: { categories: Category[] }) {
+export default function CategoryRail() {
   const { t, L } = useLocale();
+  const { categories } = useTaxonomy();
+  const visible = categories.filter((c) => !c.hidden);
   return (
     <section className="mx-auto max-w-7xl px-4 py-14">
       <div className="mb-6 flex items-end justify-between">
@@ -15,7 +17,7 @@ export default function CategoryRail({ categories }: { categories: Category[] })
         </Link>
       </div>
       <div className="rail flex snap-x gap-4 overflow-x-auto pb-2">
-        {categories.map((c) => (
+        {visible.map((c) => (
           <Link
             key={c.id}
             href={`/shop?category=${c.id}`}

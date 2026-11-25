@@ -3,9 +3,8 @@
 import { useSearchParams } from "next/navigation";
 import { Suspense, useMemo, useState } from "react";
 import ProductCard from "@/components/ProductCard";
-import { useCatalog } from "@/lib/admin";
+import { useCatalog, useTaxonomy } from "@/lib/admin";
 import { useLocale } from "@/lib/i18n";
-import { categories, collections } from "@/lib/mock-data";
 import type { Product } from "@/lib/types";
 
 type SortKey = "featured" | "new" | "price-low" | "price-high";
@@ -18,6 +17,9 @@ function ShopInner() {
   const [sort, setSort] = useState<SortKey>((params.get("sort") as SortKey) || "featured");
   const [q, setQ] = useState(params.get("q") ?? "");
   const products = useCatalog();
+  const tax = useTaxonomy();
+  const categories = tax.categories.filter((c) => !c.hidden);
+  const collections = tax.collections.filter((c) => !c.hidden);
 
   const filtered = useMemo(() => {
     let list: Product[] = [...products];

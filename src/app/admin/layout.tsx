@@ -9,6 +9,7 @@ import { useTheme } from "@/lib/theme";
 const items = [
   { href: "/admin", icon: "◧", ar: "نظرة عامة", en: "Overview" },
   { href: "/admin/products", icon: "▤", ar: "المنتجات والأسعار", en: "Products & Pricing" },
+  { href: "/admin/categories", icon: "▧", ar: "الأقسام والمجموعات", en: "Categories" },
   { href: "/admin/inventory", icon: "▦", ar: "المخزون", en: "Inventory" },
   { href: "/admin/orders", icon: "◫", ar: "الطلبات", en: "Orders" },
   { href: "/admin/customers", icon: "◍", ar: "العملاء", en: "Customers" },

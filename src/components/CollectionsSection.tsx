@@ -1,18 +1,20 @@
 "use client";
 
 import Link from "next/link";
+import { useTaxonomy } from "@/lib/admin";
 import { useLocale } from "@/lib/i18n";
-import type { Collection } from "@/lib/types";
 
-export default function CollectionsSection({ collections }: { collections: Collection[] }) {
+export default function CollectionsSection() {
   const { L } = useLocale();
+  const { collections } = useTaxonomy();
+  const visible = collections.filter((c) => !c.hidden);
   return (
     <section id="collections" className="mx-auto max-w-7xl px-4 py-14">
       <h2 className="mb-6 font-display text-2xl font-bold sm:text-3xl">
         {useLocaleTitle()}
       </h2>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {collections.map((c, i) => (
+        {visible.map((c, i) => (
           <Link
             key={c.id}
             href={`/shop?collection=${c.id}`}
@@ -32,7 +34,7 @@ export default function CollectionsSection({ collections }: { collections: Colle
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10" />
             <div className="absolute bottom-4 start-4">
               <h3 className="font-display text-xl font-bold text-white">{L(c.name)}</h3>
-              <p className="mt-1 text-xs text-white/80">{L(c.tagline)}</p>
+              <p className="mt-1 text-xs text-white/80">{c.tagline ? L(c.tagline) : ""}</p>
             </div>
           </Link>
         ))}
